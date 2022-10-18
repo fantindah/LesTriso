@@ -6,8 +6,10 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public List<MovementVector> movementFrame = new();
-    public float timeBetweenMoves;
+    public float timeBetweenMoves, checkPointTime;
     public bool goBack = false;
+
+
     private Coroutine movementCoroutine;
     private bool isGoingBack = false;
 
@@ -21,7 +23,7 @@ public class EnemyMovement : MonoBehaviour
         {
             movement.maxNorm = movement.norm;
             movement.isPositive = (movement.norm >= 0);
-            movementFrameConst.Add(new MovementVector(movement.direction, movement.norm));
+            movementFrameConst.Add(new MovementVector(movement.direction, movement.norm, movement.actionAfterPassed));
         }
 
         movementCoroutine = StartCoroutine(Movement());
@@ -73,6 +75,15 @@ public class EnemyMovement : MonoBehaviour
                     }
                     yield return new WaitForSeconds(timeBetweenMoves);
                 }
+                switch (movement.actionAfterPassed)
+                {
+                    case ActionAfterPassed.RemoveFromTheList:
+                        if(!isGoingBack) RemoveAllMovementFromBefore(movement);
+                        break;
+                    case ActionAfterPassed.Wait:
+                        yield return new WaitForSeconds(checkPointTime);
+                        break;
+                }
             } else
             {
                 while (movement.norm != 0)
@@ -106,15 +117,36 @@ public class EnemyMovement : MonoBehaviour
                     }
                     yield return new WaitForSeconds(timeBetweenMoves);
                 }
+                switch (movement.actionAfterPassed)
+                {
+                    case ActionAfterPassed.RemoveFromTheList:
+                        if (!isGoingBack) RemoveAllMovementFromBefore(movement);
+                        break;
+                    case ActionAfterPassed.Wait:
+                        yield return new WaitForSeconds(checkPointTime);
+                        break;
+                }
             }
         }
     }
 
-    public void ReverseMovement()
+    private void ReverseMovement()
     {
         if(movementCoroutine is not null) StopCoroutine(movementCoroutine);
         movementFrame.Reverse();
         isGoingBack = !isGoingBack;
+        movementCoroutine = StartCoroutine(Movement());
+    }
+
+    private void RemoveAllMovementFromBefore(MovementVector movement)
+    {
+        if(movementCoroutine is not null) StopCoroutine(movementCoroutine);
+        int value = movementFrame.IndexOf(movement);
+        while (value >= 0)
+        {
+            movementFrame.Remove(movementFrame[value]);
+            value--;
+        }
         movementCoroutine = StartCoroutine(Movement());
     }
 
@@ -140,6 +172,16 @@ public class EnemyMovement : MonoBehaviour
             }
             Gizmos.DrawLine(startingFrom, direction);
 
+            switch (movement.actionAfterPassed)
+            {
+                case ActionAfterPassed.RemoveFromTheList:
+                    Gizmos.DrawSphere(direction, .5f);
+                    break;
+                case ActionAfterPassed.Wait:
+                    Gizmos.DrawCube(direction, new Vector3(1, 1, 0));
+                    break;
+            }
+
             startingFrom = direction;
         }
     }
@@ -151,13 +193,15 @@ public class MovementVector
 {
     public MovementDirection direction;
     public int norm;
+    public ActionAfterPassed actionAfterPassed;
     [HideInInspector] public int maxNorm;
     [HideInInspector] public bool isPositive;
 
-    public MovementVector(MovementDirection direction, int norm)
+    public MovementVector(MovementDirection direction, int norm, ActionAfterPassed actionAfterPassed)
     {
         this.direction = direction;
         this.norm = norm;
+        this.actionAfterPassed = actionAfterPassed;
         maxNorm = norm;
         isPositive = (norm >= 0);
     }   
@@ -167,4 +211,11 @@ public enum MovementDirection
 {
     Vertical,
     Horizontal
+}
+
+public enum ActionAfterPassed
+{
+    Nothing,
+    RemoveFromTheList,
+    Wait
 }

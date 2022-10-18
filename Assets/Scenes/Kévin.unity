@@ -155,30 +155,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementFrame:
   - direction: 0
-    norm: 1
+    norm: 4
+    actionAfterPassed: 2
     maxNorm: 0
     isPositive: 0
   - direction: 1
-    norm: 2
+    norm: 5
+    actionAfterPassed: 2
     maxNorm: 0
     isPositive: 0
   - direction: 0
-    norm: -2
+    norm: -7
+    actionAfterPassed: 0
     maxNorm: 0
     isPositive: 0
   - direction: 1
-    norm: -3
+    norm: -12
+    actionAfterPassed: 0
     maxNorm: 0
     isPositive: 0
   - direction: 0
     norm: 3
+    actionAfterPassed: 1
     maxNorm: 0
     isPositive: 0
   - direction: 1
     norm: 4
+    actionAfterPassed: 0
     maxNorm: 0
     isPositive: 0
   timeBetweenMoves: 0.1
+  checkPointTime: 3
   goBack: 0
 --- !u!212 &558443622
 SpriteRenderer:
