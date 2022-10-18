@@ -6,9 +6,12 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 
 public class LightSwitch : MonoBehaviour
 {
+    [SerializeField] private GameObject lightsOffIcon;
+    [SerializeField] private GameObject lightsOnIcon;
+
     [SerializeField] private GameObject lightsOff;
     [SerializeField] private GameObject lightsOn;
-    [SerializeField] private GameObject lights;
+
     [SerializeField] private Image cooldownSprite;
 
 
@@ -39,9 +42,10 @@ public class LightSwitch : MonoBehaviour
     {
         if (canSwitch)
         {
+            lightsOffIcon.SetActive(false);
+            lightsOnIcon.SetActive(true);
             lightsOff.SetActive(false);
             lightsOn.SetActive(true);
-            lights.SetActive(false);
             lightsOnBool = true;
             StartCoroutine(SwitchCooldown());
         }
@@ -50,9 +54,10 @@ public class LightSwitch : MonoBehaviour
     {
         if (canSwitch)
         {
+            lightsOffIcon.SetActive(true);
+            lightsOnIcon.SetActive(false);
             lightsOff.SetActive(true);
             lightsOn.SetActive(false);
-            lights.SetActive(true);
             lightsOnBool = false;
             StartCoroutine(SwitchCooldown());
         }
