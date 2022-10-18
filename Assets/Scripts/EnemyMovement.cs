@@ -1,66 +1,142 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
-
 public class EnemyMovement : MonoBehaviour
 {
-    public List<Movement> movements = new();
-    public bool canMove;
+    public List<MovementVector> movementFrame = new();
     public float timeBetweenMoves;
+    public bool goBack = false;
+    private Coroutine movementCoroutine;
+    private bool isGoingBack = false;
 
+    //GIZMOS
+    private List<MovementVector> movementFrameConst = new();
 
     private void Start()
     {
-        StartCoroutine(StartMovement());
+
+        foreach(MovementVector movement in movementFrame)
+        {
+            movement.maxNorm = movement.norm;
+            movement.isPositive = (movement.norm >= 0);
+            movementFrameConst.Add(new MovementVector(movement.direction, movement.norm));
+        }
+
+        movementCoroutine = StartCoroutine(Movement());
     }
 
-    IEnumerator StartMovement()
+    private void Update()
     {
-        foreach(Movement movement in movements)
+        if (goBack)
         {
-
-            while(movement.amountOfMovement > 0)
-            {
-
-                if (!canMove)
-                {
-                    yield return new WaitForSeconds(timeBetweenMoves);
-                    continue;
-                }
-
-                if (movement.direction == Direction.RIGHT || movement.direction == Direction.LEFT)
-                {
-                    transform.position = new Vector3(transform.position.x + (movement.direction == Direction.RIGHT ? 1 : -1), transform.position.y);
-                }
-                else if ((movement.direction == Direction.UP || movement.direction == Direction.DOWN))
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y + (movement.direction == Direction.UP ? 1 : -1));
-                }
-                movement.amountOfMovement--;
-                yield return new WaitForSeconds(timeBetweenMoves);
-            }
-
+            goBack = false;
+            ReverseMovement();
         }
+    }
+
+    public IEnumerator Movement()
+    {
+        foreach (MovementVector movement in movementFrame)
+        {
+            if (isGoingBack)
+            {
+                while (movement.norm != movement.maxNorm)
+                {
+                    switch (movement.direction)
+                    {
+                        case MovementDirection.Horizontal:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x - 1, transform.position.y, 0);
+                                movement.norm++;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x + 1, transform.position.y, 0);
+                                movement.norm--;
+                            }
+                            break;
+                        case MovementDirection.Vertical:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y - 1, 0);
+                                movement.norm++;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y + 1, 0);
+                                movement.norm--;
+                            }
+                            break;
+                    }
+                    yield return new WaitForSeconds(timeBetweenMoves);
+                }
+            } else
+            {
+                while (movement.norm != 0)
+                {
+                    switch (movement.direction)
+                    {
+                        case MovementDirection.Horizontal:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x + 1, transform.position.y, 0);
+                                movement.norm--;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x - 1, transform.position.y, 0);
+                                movement.norm++;
+                            }
+                            break;
+                        case MovementDirection.Vertical:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y + 1, 0);
+                                movement.norm--;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y - 1, 0);
+                                movement.norm++;
+                            }
+                            break;
+                    }
+                    yield return new WaitForSeconds(timeBetweenMoves);
+                }
+            }
+        }
+    }
+
+    public void ReverseMovement()
+    {
+        if(movementCoroutine is not null) StopCoroutine(movementCoroutine);
+        movementFrame.Reverse();
+        isGoingBack = !isGoingBack;
+        movementCoroutine = StartCoroutine(Movement());
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Vector3 startingFrom = transform.position;
-        foreach(Movement movement in movements)
+
+        List<MovementVector> movementsGizmo = movementFrame.ToArray().ToList();
+        if (isGoingBack) movementsGizmo.Reverse();
+
+        foreach (MovementVector movement in movementsGizmo)
         {
             Vector3 direction = startingFrom;
 
-            if(movement.direction == Direction.RIGHT || movement.direction == Direction.LEFT)
+            if (movement.direction == MovementDirection.Horizontal)
             {
-                direction.x += (movement.amountOfMovement * (movement.direction == Direction.RIGHT ? 1 : -1));
-            } 
-            else if((movement.direction == Direction.UP || movement.direction == Direction.DOWN))
+                direction.x += movement.norm;
+            }
+            else if (movement.direction == MovementDirection.Vertical)
             {
-                direction.y += (movement.amountOfMovement * (movement.direction == Direction.UP ? 1 : -1));
+                direction.y += movement.norm;
             }
             Gizmos.DrawLine(startingFrom, direction);
 
@@ -71,16 +147,24 @@ public class EnemyMovement : MonoBehaviour
 }
 
 [Serializable]
-public class Movement
+public class MovementVector
 {
-    public int amountOfMovement;
-    public Direction direction;
+    public MovementDirection direction;
+    public int norm;
+    [HideInInspector] public int maxNorm;
+    [HideInInspector] public bool isPositive;
+
+    public MovementVector(MovementDirection direction, int norm)
+    {
+        this.direction = direction;
+        this.norm = norm;
+        maxNorm = norm;
+        isPositive = (norm >= 0);
+    }   
 }
 
-public enum Direction
+public enum MovementDirection
 {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT
+    Vertical,
+    Horizontal
 }
