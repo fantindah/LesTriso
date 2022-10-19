@@ -18,7 +18,7 @@ public class LightSwitch : MonoBehaviour
     [SerializeField] private float switchCooldown;
    
 
-    public bool lightsOnBool;
+    public bool lightsOnBool=false;
 
     private bool canSwitch = true;
     private float counter=0;
