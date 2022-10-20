@@ -18,7 +18,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
-
         foreach(MovementVector movement in movementFrame)
         {
             movement.maxNorm = movement.norm;
@@ -26,7 +25,8 @@ public class EnemyMovement : MonoBehaviour
             movementFrameConst.Add(new MovementVector(movement.direction, movement.norm, movement.actionAfterPassed));
         }
 
-        movementCoroutine = StartCoroutine(Movement());
+        //movementCoroutine = StartCoroutine(Movement());
+        //j'ai enlevé le lancement pour tester avec le GP
     }
 
     private void Update()
