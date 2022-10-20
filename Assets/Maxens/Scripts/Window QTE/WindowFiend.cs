@@ -8,6 +8,7 @@ public class WindowFiend : MonoBehaviour
     public int dangerStartDelay;
     public int QTETime;
 
+    public bool lightsOn;
     [HideInInspector] public bool inDanger;
     [HideInInspector] public bool isOutOfTime;
     private bool outOfTimeIsActive;
@@ -41,6 +42,14 @@ public class WindowFiend : MonoBehaviour
         {
             OutOfTime();
         }
+
+        if(lightsOn || !inDanger)
+        {
+            windowLaser.enabled = false;
+        } else if(inDanger)
+        {
+            windowLaser.enabled = true;
+        }
     }
 
     /// <summary>
@@ -67,7 +76,6 @@ public class WindowFiend : MonoBehaviour
             windowList[windowNumber].gameObject.GetComponent<Timer>().StartTimer(QTETime);
             windowLaser.SetPosition(0, windowList[windowNumber].transform.position);
             windowLaser.SetPosition(1, playerToAimAt.transform.position);
-            windowLaser.enabled = true;
         }
         else
         {
@@ -83,7 +91,6 @@ public class WindowFiend : MonoBehaviour
         Debug.Log("Deactivating Window QTE on window number " + activeWindowNumber);
         inDanger = false;
         windowList[activeWindowNumber].gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
-        windowLaser.enabled = false;
     }
 
     /// <summary>
