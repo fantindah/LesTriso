@@ -423,18 +423,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightsManager, Assembly-CSharp
-        m_MethodName: UpdateGauge
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &8167856705052835159
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8167856705052835156}
   - component: {fileID: 8167856705052835157}
+  - component: {fileID: 3189766465809473490}
   m_Layer: 0
   m_Name: RoomLight
   m_TagString: Untagged
@@ -487,8 +476,23 @@ MonoBehaviour:
   lightsOff: {fileID: 8167856703470315878}
   lightsOn: {fileID: 8167856705233901337}
   cooldownSprite: {fileID: 8167856704209880021}
-  switchCooldown: 2
+  switchCooldown: 3
   lightsOnBool: 0
+--- !u!114 &3189766465809473490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8167856705052835159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6bcc95af5996248bd1895794e4d8d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  electricityIncreaseTime: 3
+  electricityDecreaseTime: 3
+  electricityPerRoomAmount: 20
 --- !u!1 &8167856705233901337
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,18 +728,6 @@ MonoBehaviour:
       - m_Target: {fileID: 8167856705052835157}
         m_TargetAssemblyTypeName: LightSwitch, Assembly-CSharp
         m_MethodName: LightsOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LightsManager, Assembly-CSharp
-        m_MethodName: UpdateGauge
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

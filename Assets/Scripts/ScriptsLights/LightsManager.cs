@@ -1,31 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LightsManager : MonoBehaviour
 {
     [SerializeField] private List<bool> lightsOnList = new List<bool>();
-    [SerializeField] private Slider electricityGauge;
-
-    [Range(1f, 5f)]
-    [SerializeField] private float electricityIncreaseTime;
-
-    [Range(1f, 5f)]
-    [SerializeField] private float electricityDecreaseTime;
-
-    [SerializeField] private float electricityPerRoomAmount = 20f;
+    [SerializeField] private List<LightSwitch> AllRoomsScripts = new List<LightSwitch>();
+    private Slider electricityGauge;
 
     void Start()
     {
-        
+        electricityGauge = GameObject.Find("ElectricityGauge").GetComponent<Slider>();
     }
 
     void Update()
     {
         //lightsOnList = GetAllLightsOn(lightsOnList);
+        if (electricityGauge.value>=100)
+        {
+            BlowFuze(GetAllRooms(AllRoomsScripts));
+        }
     }
+
     public List<bool> GetAllLightsOn(List<bool> lightsList)
     { 
         lightsList.Clear();
@@ -34,28 +31,26 @@ public class LightsManager : MonoBehaviour
         }
         return lightsList;
     }
-    public void UpdateGauge()
+
+    public List<LightSwitch> GetAllRooms(List<LightSwitch> AllRooms)
     {
-        lightsOnList.Clear();
-
-        lightsOnList = GetAllLightsOn(lightsOnList);
-
-        foreach (bool isRoomLit in lightsOnList)
+        AllRooms.Clear();
+        foreach (Transform child in transform)
         {
-            if (isRoomLit)
-                StartCoroutine(ProgressiveLightUpdate(electricityPerRoomAmount, electricityIncreaseTime));
-            else
-                StartCoroutine(ProgressiveLightUpdate(-electricityPerRoomAmount, electricityDecreaseTime));
+            AllRooms.Add(child.GetComponent<LightSwitch>());
+        }
+        return AllRooms;
+    }
+
+    private void BlowFuze(List<LightSwitch> AllRooms)
+    {
+        foreach (LightSwitch room in AllRooms)
+        {
+            room.StopAllCoroutines();
+            room.canSwitch = true;
+            room.LightsOff();
+            electricityGauge.value = 0;
         }
     }
-    public IEnumerator ProgressiveLightUpdate(float ammount, float time)
-    {
-        float ammountLeft = Mathf.Abs(ammount);
-        while(ammountLeft > 0)
-        {
-            electricityGauge.value += (ammount/time)/10;
-            ammountLeft -= (ammount / time) / 10;
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
+
 }

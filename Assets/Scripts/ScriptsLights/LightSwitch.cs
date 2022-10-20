@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class LightSwitch : MonoBehaviour
 {
@@ -20,8 +19,7 @@ public class LightSwitch : MonoBehaviour
 
     public bool lightsOnBool=false;
 
-    private bool canSwitch = true;
-    private float counter=0;
+    public bool canSwitch = true;
 
   
     void Start()
@@ -30,14 +28,14 @@ public class LightSwitch : MonoBehaviour
     }
 
    
-    void Update()
+    void FixedUpdate()
     {
         if (!canSwitch)
         {
-            counter+= Time.deltaTime;
-            cooldownSprite.fillAmount = 1-(counter / switchCooldown);
+            cooldownSprite.fillAmount -= 1 / switchCooldown * Time.deltaTime;
         }
     }
+
     public void LightsOn()
     {
         if (canSwitch)
@@ -46,10 +44,15 @@ public class LightSwitch : MonoBehaviour
             lightsOnIcon.SetActive(true);
             lightsOff.SetActive(false);
             lightsOn.SetActive(true);
+
             lightsOnBool = true;
+
+            transform.GetComponent<ElectricityGaugeUpdate>().IncreaseGauge();
+
             StartCoroutine(SwitchCooldown());
         }
     }
+
     public void LightsOff()
     {
         if (canSwitch)
@@ -58,15 +61,20 @@ public class LightSwitch : MonoBehaviour
             lightsOnIcon.SetActive(false);
             lightsOff.SetActive(true);
             lightsOn.SetActive(false);
+
             lightsOnBool = false;
+
+            transform.GetComponent<ElectricityGaugeUpdate>().DecreaseGauge();
+
             StartCoroutine(SwitchCooldown());
         }
     }
+
     private IEnumerator SwitchCooldown()
     {
+        cooldownSprite.fillAmount = 1;
         canSwitch = false;
         yield return new WaitForSeconds(switchCooldown);
         canSwitch = true;
-        counter = 0;
     }
 }
