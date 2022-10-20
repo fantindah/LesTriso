@@ -10,6 +10,7 @@ public class DoorQuest : MonoBehaviour
     public GameObject cible;
 
     public Vector2 spawnArea;
+    private GameObject currentTarget;
 
     private void Start()
     {
@@ -21,8 +22,8 @@ public class DoorQuest : MonoBehaviour
         while (true)
         {
             Vector3 _spawnArea = new Vector3(Random.Range(spawnArea.x / -2, spawnArea.x / 2), Random.Range(spawnArea.y / -2, spawnArea.y / 2), 0);
-            GameObject target = Instantiate(cible, doorObject.transform.position + _spawnArea, Quaternion.identity);
-            yield return new WaitUntil(() => target == null);
+            currentTarget = Instantiate(cible, doorObject.transform.position + _spawnArea, Quaternion.identity);
+            yield return new WaitUntil(() => currentTarget == null);
             
             if(door.doorHealth % 25 > 22)
             {
@@ -32,6 +33,13 @@ public class DoorQuest : MonoBehaviour
                 door.doorHealth += 3;
             }
         }
+    }
+
+    public void Unactive()
+    {
+        door = null;
+        Destroy(currentTarget);
+        gameObject.SetActive(false);
     }
 
     private void OnDrawGizmos()

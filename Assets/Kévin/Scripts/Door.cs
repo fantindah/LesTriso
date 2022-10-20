@@ -7,7 +7,7 @@ public class Door : MonoBehaviour
 {
     public int doorHealth = 100;
     public Image healthIndicator;
-    public GameObject quest, blocker;
+    public GameObject quest, blocker, complex, jauge;
 
     private bool isQuestActive = false;
 
@@ -15,7 +15,7 @@ public class Door : MonoBehaviour
     {
         healthIndicator.fillAmount = doorHealth / 100f;
 
-        if(doorHealth <= 25)
+        if (doorHealth <= 25)
         {
             blocker.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 270));
         }
@@ -25,23 +25,31 @@ public class Door : MonoBehaviour
         } else if (doorHealth <= 75)
         {
             blocker.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
-        } else if(doorHealth <= 100)
+        } else if (doorHealth <= 100)
         {
             blocker.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape) && isQuestActive)
+        {
+            quest.GetComponent<DoorQuest>().Unactive();
         }
 
     }
 
     private void OnMouseDown()
     {
-        if (isQuestActive)
-        {
-            isQuestActive = false;
-            quest.SetActive(false);
-        } else
+        if (!isQuestActive && !quest.activeInHierarchy)
         {
             isQuestActive = true;
             quest.SetActive(true);
+            quest.GetComponent<DoorQuest>().door = this;
         }
+    }
+
+    public bool Damage(int damages)
+    {
+        doorHealth -= damages;
+        return doorHealth <= 0;
     }
 }

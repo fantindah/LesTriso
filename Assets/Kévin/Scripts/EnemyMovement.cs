@@ -6,12 +6,14 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public List<MovementVector> movementFrame = new();
+    public float distanceBetweenMovements;
     public float timeBetweenMoves, checkPointTime;
-    public bool goBack = false;
+    public bool goBack = false, unblocked = false;
 
 
     private Coroutine movementCoroutine;
     private bool isGoingBack = false;
+    public bool isBlocked = false;
 
     //GIZMOS
     private List<MovementVector> movementFrameConst = new();
@@ -23,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
         {
             movement.maxNorm = movement.norm;
             movement.isPositive = (movement.norm >= 0);
-            movementFrameConst.Add(new MovementVector(movement.direction, movement.norm, movement.actionAfterPassed));
+            movementFrameConst.Add(new MovementVector(movement.direction, movement.norm, movement.actionAfterPassed, movement.actionAfterPassedBackward));
         }
 
         movementCoroutine = StartCoroutine(Movement());
@@ -35,6 +37,11 @@ public class EnemyMovement : MonoBehaviour
         {
             goBack = false;
             ReverseMovement();
+        }
+        if (unblocked)
+        {
+            unblocked = false;
+            isBlocked = false;
         }
     }
 
@@ -51,37 +58,44 @@ public class EnemyMovement : MonoBehaviour
                         case MovementDirection.Horizontal:
                             if (movement.isPositive)
                             {
-                                transform.position = new Vector3(transform.position.x - 1, transform.position.y, 0);
+                                transform.position = new Vector3(transform.position.x - distanceBetweenMovements, transform.position.y, 0);
                                 movement.norm++;
                             }
                             else
                             {
-                                transform.position = new Vector3(transform.position.x + 1, transform.position.y, 0);
+                                transform.position = new Vector3(transform.position.x + distanceBetweenMovements, transform.position.y, 0);
                                 movement.norm--;
                             }
                             break;
                         case MovementDirection.Vertical:
                             if (movement.isPositive)
                             {
-                                transform.position = new Vector3(transform.position.x, transform.position.y - 1, 0);
+                                transform.position = new Vector3(transform.position.x, transform.position.y - distanceBetweenMovements, 0);
                                 movement.norm++;
                             }
                             else
                             {
-                                transform.position = new Vector3(transform.position.x, transform.position.y + 1, 0);
+                                transform.position = new Vector3(transform.position.x, transform.position.y + distanceBetweenMovements, 0);
                                 movement.norm--;
                             }
                             break;
                     }
                     yield return new WaitForSeconds(timeBetweenMoves);
                 }
-                switch (movement.actionAfterPassed)
+                switch (movement.actionAfterPassedBackward)
                 {
                     case ActionAfterPassed.RemoveFromTheList:
                         if(!isGoingBack) RemoveAllMovementFromBefore(movement);
                         break;
                     case ActionAfterPassed.Wait:
                         yield return new WaitForSeconds(checkPointTime);
+                        break;
+                    case ActionAfterPassed.GameOver:
+                        Debug.Log("TU ES MORT AHAHAHAHAHAH");
+                        break;
+                    case ActionAfterPassed.WaitUntilCondition:
+                        isBlocked = true;
+                        yield return new WaitUntil(() => isBlocked = false);
                         break;
                 }
             } else
@@ -93,24 +107,24 @@ public class EnemyMovement : MonoBehaviour
                         case MovementDirection.Horizontal:
                             if (movement.isPositive)
                             {
-                                transform.position = new Vector3(transform.position.x + 1, transform.position.y, 0);
+                                transform.position = new Vector3(transform.position.x + distanceBetweenMovements, transform.position.y, 0);
                                 movement.norm--;
                             }
                             else
                             {
-                                transform.position = new Vector3(transform.position.x - 1, transform.position.y, 0);
+                                transform.position = new Vector3(transform.position.x - distanceBetweenMovements, transform.position.y, 0);
                                 movement.norm++;
                             }
                             break;
                         case MovementDirection.Vertical:
                             if (movement.isPositive)
                             {
-                                transform.position = new Vector3(transform.position.x, transform.position.y + 1, 0);
+                                transform.position = new Vector3(transform.position.x, transform.position.y + distanceBetweenMovements, 0);
                                 movement.norm--;
                             }
                             else
                             {
-                                transform.position = new Vector3(transform.position.x, transform.position.y - 1, 0);
+                                transform.position = new Vector3(transform.position.x, transform.position.y - distanceBetweenMovements, 0);
                                 movement.norm++;
                             }
                             break;
@@ -124,6 +138,17 @@ public class EnemyMovement : MonoBehaviour
                         break;
                     case ActionAfterPassed.Wait:
                         yield return new WaitForSeconds(checkPointTime);
+                        break;
+                    case ActionAfterPassed.GameOver:
+                        Debug.Log("TU ES MORT AHAHAHAHAHAH");
+                        break;
+                    case ActionAfterPassed.WaitUntilCondition:
+                        isBlocked = true;
+                        while (isBlocked)
+                        {
+                            if (isGoingBack) break;
+                            yield return new WaitForEndOfFrame();
+                        }
                         break;
                 }
             }
@@ -164,11 +189,11 @@ public class EnemyMovement : MonoBehaviour
 
             if (movement.direction == MovementDirection.Horizontal)
             {
-                direction.x += movement.norm;
+                direction.x += movement.norm * distanceBetweenMovements;
             }
             else if (movement.direction == MovementDirection.Vertical)
             {
-                direction.y += movement.norm;
+                direction.y += movement.norm * distanceBetweenMovements;
             }
             Gizmos.DrawLine(startingFrom, direction);
 
@@ -194,14 +219,16 @@ public class MovementVector
     public MovementDirection direction;
     public int norm;
     public ActionAfterPassed actionAfterPassed;
+    public ActionAfterPassed actionAfterPassedBackward;
     [HideInInspector] public int maxNorm;
     [HideInInspector] public bool isPositive;
 
-    public MovementVector(MovementDirection direction, int norm, ActionAfterPassed actionAfterPassed)
+    public MovementVector(MovementDirection direction, int norm, ActionAfterPassed actionAfterPassed, ActionAfterPassed actionAfterPassedBackward)
     {
         this.direction = direction;
         this.norm = norm;
         this.actionAfterPassed = actionAfterPassed;
+        this.actionAfterPassedBackward = actionAfterPassedBackward;
         maxNorm = norm;
         isPositive = (norm >= 0);
     }   
@@ -217,5 +244,7 @@ public enum ActionAfterPassed
 {
     Nothing,
     RemoveFromTheList,
-    Wait
+    Wait,
+    WaitUntilCondition,
+    GameOver
 }
