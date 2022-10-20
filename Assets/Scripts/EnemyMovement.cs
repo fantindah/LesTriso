@@ -1,68 +1,186 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using System.Linq;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
-
 public class EnemyMovement : MonoBehaviour
 {
-    public List<Movement> movements = new();
-    public bool canMove;
-    public float timeBetweenMoves;
+    public List<MovementVector> movementFrame = new();
+    public float timeBetweenMoves, checkPointTime;
+    public bool goBack = false;
 
+
+    private Coroutine movementCoroutine;
+    private bool isGoingBack = false;
+
+    //GIZMOS
+    private List<MovementVector> movementFrameConst = new();
 
     private void Start()
     {
-        StartCoroutine(StartMovement());
+
+        foreach(MovementVector movement in movementFrame)
+        {
+            movement.maxNorm = movement.norm;
+            movement.isPositive = (movement.norm >= 0);
+            movementFrameConst.Add(new MovementVector(movement.direction, movement.norm, movement.actionAfterPassed));
+        }
+
+        movementCoroutine = StartCoroutine(Movement());
     }
 
-    IEnumerator StartMovement()
+    private void Update()
     {
-        foreach(Movement movement in movements)
+        if (goBack)
         {
-
-            while(movement.amountOfMovement > 0)
-            {
-
-                if (!canMove)
-                {
-                    yield return new WaitForSeconds(timeBetweenMoves);
-                    continue;
-                }
-
-                if (movement.direction == Direction.RIGHT || movement.direction == Direction.LEFT)
-                {
-                    transform.position = new Vector3(transform.position.x + (movement.direction == Direction.RIGHT ? 1 : -1), transform.position.y);
-                }
-                else if ((movement.direction == Direction.UP || movement.direction == Direction.DOWN))
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y + (movement.direction == Direction.UP ? 1 : -1));
-                }
-                movement.amountOfMovement--;
-                yield return new WaitForSeconds(timeBetweenMoves);
-            }
-
+            goBack = false;
+            ReverseMovement();
         }
+    }
+
+    public IEnumerator Movement()
+    {
+        foreach (MovementVector movement in movementFrame)
+        {
+            if (isGoingBack)
+            {
+                while (movement.norm != movement.maxNorm)
+                {
+                    switch (movement.direction)
+                    {
+                        case MovementDirection.Horizontal:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x - 1, transform.position.y, 0);
+                                movement.norm++;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x + 1, transform.position.y, 0);
+                                movement.norm--;
+                            }
+                            break;
+                        case MovementDirection.Vertical:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y - 1, 0);
+                                movement.norm++;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y + 1, 0);
+                                movement.norm--;
+                            }
+                            break;
+                    }
+                    yield return new WaitForSeconds(timeBetweenMoves);
+                }
+                switch (movement.actionAfterPassed)
+                {
+                    case ActionAfterPassed.RemoveFromTheList:
+                        if(!isGoingBack) RemoveAllMovementFromBefore(movement);
+                        break;
+                    case ActionAfterPassed.Wait:
+                        yield return new WaitForSeconds(checkPointTime);
+                        break;
+                }
+            } else
+            {
+                while (movement.norm != 0)
+                {
+                    switch (movement.direction)
+                    {
+                        case MovementDirection.Horizontal:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x + 1, transform.position.y, 0);
+                                movement.norm--;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x - 1, transform.position.y, 0);
+                                movement.norm++;
+                            }
+                            break;
+                        case MovementDirection.Vertical:
+                            if (movement.isPositive)
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y + 1, 0);
+                                movement.norm--;
+                            }
+                            else
+                            {
+                                transform.position = new Vector3(transform.position.x, transform.position.y - 1, 0);
+                                movement.norm++;
+                            }
+                            break;
+                    }
+                    yield return new WaitForSeconds(timeBetweenMoves);
+                }
+                switch (movement.actionAfterPassed)
+                {
+                    case ActionAfterPassed.RemoveFromTheList:
+                        if (!isGoingBack) RemoveAllMovementFromBefore(movement);
+                        break;
+                    case ActionAfterPassed.Wait:
+                        yield return new WaitForSeconds(checkPointTime);
+                        break;
+                }
+            }
+        }
+    }
+
+    private void ReverseMovement()
+    {
+        if(movementCoroutine is not null) StopCoroutine(movementCoroutine);
+        movementFrame.Reverse();
+        isGoingBack = !isGoingBack;
+        movementCoroutine = StartCoroutine(Movement());
+    }
+
+    private void RemoveAllMovementFromBefore(MovementVector movement)
+    {
+        if(movementCoroutine is not null) StopCoroutine(movementCoroutine);
+        int value = movementFrame.IndexOf(movement);
+        while (value >= 0)
+        {
+            movementFrame.Remove(movementFrame[value]);
+            value--;
+        }
+        movementCoroutine = StartCoroutine(Movement());
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Vector3 startingFrom = transform.position;
-        foreach(Movement movement in movements)
+
+        List<MovementVector> movementsGizmo = movementFrame.ToArray().ToList();
+        if (isGoingBack) movementsGizmo.Reverse();
+
+        foreach (MovementVector movement in movementsGizmo)
         {
             Vector3 direction = startingFrom;
 
-            if(movement.direction == Direction.RIGHT || movement.direction == Direction.LEFT)
+            if (movement.direction == MovementDirection.Horizontal)
             {
-                direction.x += (movement.amountOfMovement * (movement.direction == Direction.RIGHT ? 1 : -1));
-            } 
-            else if((movement.direction == Direction.UP || movement.direction == Direction.DOWN))
+                direction.x += movement.norm;
+            }
+            else if (movement.direction == MovementDirection.Vertical)
             {
-                direction.y += (movement.amountOfMovement * (movement.direction == Direction.UP ? 1 : -1));
+                direction.y += movement.norm;
             }
             Gizmos.DrawLine(startingFrom, direction);
+
+            switch (movement.actionAfterPassed)
+            {
+                case ActionAfterPassed.RemoveFromTheList:
+                    Gizmos.DrawSphere(direction, .5f);
+                    break;
+                case ActionAfterPassed.Wait:
+                    Gizmos.DrawCube(direction, new Vector3(1, 1, 0));
+                    break;
+            }
 
             startingFrom = direction;
         }
@@ -71,16 +189,33 @@ public class EnemyMovement : MonoBehaviour
 }
 
 [Serializable]
-public class Movement
+public class MovementVector
 {
-    public int amountOfMovement;
-    public Direction direction;
+    public MovementDirection direction;
+    public int norm;
+    public ActionAfterPassed actionAfterPassed;
+    [HideInInspector] public int maxNorm;
+    [HideInInspector] public bool isPositive;
+
+    public MovementVector(MovementDirection direction, int norm, ActionAfterPassed actionAfterPassed)
+    {
+        this.direction = direction;
+        this.norm = norm;
+        this.actionAfterPassed = actionAfterPassed;
+        maxNorm = norm;
+        isPositive = (norm >= 0);
+    }   
 }
 
-public enum Direction
+public enum MovementDirection
 {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT
+    Vertical,
+    Horizontal
+}
+
+public enum ActionAfterPassed
+{
+    Nothing,
+    RemoveFromTheList,
+    Wait
 }
