@@ -12,12 +12,16 @@ public class WindowFiend : MonoBehaviour
     [HideInInspector] public bool isOutOfTime;
     private bool outOfTimeIsActive;
     [HideInInspector] public int activeWindow;
+
+    [Header("Window Objects")]
     public GameObject[] windowList;
+    public LineRenderer windowLaser;
+    public GameObject playerToAimAt;
 
 
     void Start()
     {
-
+        windowLaser.enabled = false;
     }
 
     // Update is called once per frame
@@ -56,11 +60,14 @@ public class WindowFiend : MonoBehaviour
     {
         if(!inDanger)
         {
-        Debug.Log("Activating Window QTE on window number " + windowNumber);
-        inDanger = true;
-        activeWindow = windowNumber;
-        windowList[windowNumber].gameObject.GetComponent<Renderer>().material.color = new Color(0.462f, 0, 0, 1);
-        windowList[windowNumber].gameObject.GetComponent<Timer>().StartTimer(QTETime);
+            Debug.Log("Activating Window QTE on window number " + windowNumber);
+            inDanger = true;
+            activeWindow = windowNumber;
+            windowList[windowNumber].gameObject.GetComponent<Renderer>().material.color = new Color(0.462f, 0, 0, 1);
+            windowList[windowNumber].gameObject.GetComponent<Timer>().StartTimer(QTETime);
+            windowLaser.SetPosition(0, windowList[windowNumber].transform.position);
+            windowLaser.SetPosition(1, playerToAimAt.transform.position);
+            windowLaser.enabled = true;
         }
         else
         {
@@ -76,6 +83,7 @@ public class WindowFiend : MonoBehaviour
         Debug.Log("Deactivating Window QTE on window number " + activeWindowNumber);
         inDanger = false;
         windowList[activeWindowNumber].gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+        windowLaser.enabled = false;
     }
 
     /// <summary>
