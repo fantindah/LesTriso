@@ -23,7 +23,7 @@ public class MomMouvement : MonoBehaviour
         if(gameObject.GetComponent<EnemyMovement>().activeMovement == 5 && !dialoguePlaying && gameObject.GetComponent<EnemyMovement>().isBlocked && security ==0 && transform.position.x >-4)
         {
             Debug.Log(gameObject.GetComponent<EnemyMovement>().activeMovement);
-            StartCoroutine(ActivateDialogue(momDialogue, 2, sonDialogue, 1));
+            StartCoroutine(ActivateDialogue(momDialogue, 6, sonDialogue, 2));
         }
         else if (gameObject.GetComponent<EnemyMovement>().activeMovement == 5 && gameObject.GetComponent<EnemyMovement>().isBlocked && security == 0 && transform.position.x < -4)
         {

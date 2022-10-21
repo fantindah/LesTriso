@@ -9,7 +9,7 @@ public class Door : MonoBehaviour
     public Image healthIndicator;
     public GameObject quest, blocker, complex, jauge;
 
-    private bool isQuestActive = false;
+    [HideInInspector] public bool isQuestActive = false;
 
     private void Update()
     {
@@ -43,7 +43,9 @@ public class Door : MonoBehaviour
         {
             isQuestActive = true;
             quest.SetActive(true);
-            quest.GetComponent<DoorQuest>().door = this;
+            DoorQuest _quest = quest.GetComponent<DoorQuest>();
+            _quest.door = this;
+            _quest.textQuest.SetActive(false);
         }
     }
 

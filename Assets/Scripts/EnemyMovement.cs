@@ -22,14 +22,11 @@ public class EnemyMovement : MonoBehaviour
     //GIZMOS
     private List<MovementVector> movementFrameConst = new();
 
-    private void Awake()
-    {
-        movementCoroutine = StartCoroutine(Movement());
-    }
-
     private void Start()
     {
-        foreach(MovementVector movement in movementFrame)
+        movementCoroutine = StartCoroutine(Movement());
+
+        foreach (MovementVector movement in movementFrame)
         {
             movement.maxNorm = movement.norm;
             movement.isPositive = (movement.norm >= 0);
