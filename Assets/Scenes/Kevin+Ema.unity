@@ -661,6 +661,8 @@ GameObject:
   - component: {fileID: 197936821}
   - component: {fileID: 197936820}
   - component: {fileID: 197936822}
+  - component: {fileID: 197936824}
+  - component: {fileID: 197936823}
   m_Layer: 5
   m_Name: TypingIcon
   m_TagString: Untagged
@@ -686,7 +688,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 356.4182, y: -279.01}
+  m_AnchoredPosition: {x: 461, y: -344}
   m_SizeDelta: {x: 152.6901, y: 143.5266}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &197936820
@@ -783,6 +785,38 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!210 &197936823
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197936818}
+  m_Enabled: 1
+  m_SortingLayerID: 232492439
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+--- !u!223 &197936824
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197936818}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &206846737
 GameObject:
   m_ObjectHideFlags: 0
