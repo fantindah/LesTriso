@@ -11,11 +11,12 @@ public class EnemyFBI : MonoBehaviour
     public int damages;
 
     private float currentCooldownDoorHiting;
-    private bool isTransitory = true;
+    private bool isTransitory = false;
 
     private void Start()
     {
         currentCooldownDoorHiting = cooldownDoorHiting;
+        isLightOn[0].LightsOn();
     }
 
     private void Update()
@@ -24,6 +25,14 @@ public class EnemyFBI : MonoBehaviour
         {
             if (!movement.isGoingBack)
             {
+
+                if (isTransitory)
+                {
+                    isTransitory = false;
+                    isLightOn[0].LightsOn();
+                    movement.unblocked = true;
+                }
+
                 currentCooldownDoorHiting -= Time.deltaTime;
                 if (currentCooldownDoorHiting <= 0)
                 {
@@ -40,7 +49,7 @@ public class EnemyFBI : MonoBehaviour
                 }
             } else
             {
-                isLightOn[0].LightsOnWithoutCooldown();
+                isLightOn[0].LightsOn();
                 movement.unblocked = true;
                 movement.goBack = true;
             }
