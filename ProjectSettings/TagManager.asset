@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Light
   - Dark
+  - EnemyFBI
   layers:
   - Default
   - TransparentFX
