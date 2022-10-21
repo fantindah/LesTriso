@@ -15,6 +15,8 @@ public class EnemyMovement : MonoBehaviour
     public bool isGoingBack = false;
     public bool isBlocked = false;
     public float backCooldown = 0f;
+
+    public int activeMovement;
     
 
     //GIZMOS
@@ -61,6 +63,8 @@ public class EnemyMovement : MonoBehaviour
     {
         foreach (MovementVector movement in movementFrame)
         {
+            activeMovement = movementFrame.IndexOf(movement);
+
             if (isGoingBack)
             {
                 while (movement.norm != movement.maxNorm)
