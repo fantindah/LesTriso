@@ -6,6 +6,8 @@ public class WindowFiend : MonoBehaviour
 {
     [Header("QTE Values")]
     public int dangerStartDelay;
+    public int minTime;
+    public int maxTime;
     public int QTETime;
 
     public bool lightsOn;
@@ -23,6 +25,7 @@ public class WindowFiend : MonoBehaviour
     void Start()
     {
         windowLaser.enabled = false;
+        StartCoroutine(ActivateDangerWindow());
     }
 
     // Update is called once per frame
@@ -31,10 +34,10 @@ public class WindowFiend : MonoBehaviour
 
         //DEBUG COMMAND TO START A WINDOW QTE, DELETE LATER AND CHANGE TO RANDOM EVENT.
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(ActivateDangerWindow(dangerStartDelay)); // KEEP AND USE TO START THE QTE
-        }
+        //if(Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    StartCoroutine(ActivateDangerWindow()); // KEEP AND USE TO START THE QTE
+        //}
 
         //DEBUG COMMAND TO START A WINDOW QTE, DELETE LATER AND CHANGE TO RANDOM EVENT.
 
@@ -55,11 +58,14 @@ public class WindowFiend : MonoBehaviour
     /// <summary>
     /// After a changeable delay, selects a random window for the window QTE.
     /// </summary>
-    public IEnumerator ActivateDangerWindow(int time)
+    public IEnumerator ActivateDangerWindow()
     {
+        int time = Random.Range(minTime, maxTime);
         Debug.Log("Activating a random window in " + time + " seconds");
         yield return new WaitForSeconds(time);
         DangerOn(Random.Range(0, windowList.Length));
+        yield return new WaitForSeconds(3);
+        StartCoroutine(ActivateDangerWindow());
     }
 
     /// <summary>
