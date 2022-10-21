@@ -21,10 +21,12 @@ public class LightSwitch : MonoBehaviour
 
     public bool canSwitch = true;
 
+    private MomMouvement momMouvementScript;
+
   
     void Start()
     {
-        
+        momMouvementScript = GameObject.Find("Mom").GetComponent<MomMouvement>();
     }
 
    
@@ -67,6 +69,9 @@ public class LightSwitch : MonoBehaviour
             transform.GetComponent<ElectricityGaugeUpdate>().DecreaseGauge();
 
             StartCoroutine(SwitchCooldown());
+
+            momMouvementScript.SendMessage("StartMovement", gameObject.name);
+
         }
     }
 
