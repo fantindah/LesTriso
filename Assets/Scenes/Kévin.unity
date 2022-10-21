@@ -376,7 +376,7 @@ MonoBehaviour:
   - {fileID: 1646118138}
   - {fileID: 1419007579}
   - {fileID: 962830649}
-  lightSwitch: []
+  isLightOn: 
   movement: {fileID: 558443625}
   cooldownDoorHiting: 10
   damages: 15
@@ -396,7 +396,7 @@ MonoBehaviour:
   - direction: 0
     norm: 5
     actionAfterPassed: 3
-    actionAfterPassedBackward: 4
+    actionAfterPassedBackward: 3
     maxNorm: 0
     isPositive: 0
   distanceBetweenMovements: 0.4
@@ -406,7 +406,6 @@ MonoBehaviour:
   unblocked: 0
   isGoingBack: 0
   isBlocked: 0
-  lightTurnedOn: 0
 --- !u!1 &746337082 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 29226543644096934, guid: 17496de7b8e996042b922cb0ba90cedf, type: 3}
