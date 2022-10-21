@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class EnemyMovement : MonoBehaviour
 {
     public List<MovementVector> movementFrame = new();
@@ -141,6 +142,7 @@ public class EnemyMovement : MonoBehaviour
                     break;
                 case ActionAfterPassed.GameOver:
                     Debug.Log("TU ES MORT AHAHAHAHAHAH");
+                    SceneManager.LoadScene(3);
                     break;
                 case ActionAfterPassed.WaitUntilCondition:
                     isBlocked = true;

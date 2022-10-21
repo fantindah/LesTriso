@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WindowFiend : MonoBehaviour
 {
@@ -106,6 +107,7 @@ public class WindowFiend : MonoBehaviour
     {
         outOfTimeIsActive = true;
         Debug.Log("YOU LOST");
+        SceneManager.LoadScene(3);
         // FUNCTION THAT ENDS THE WINDOW EVENT. CALL ANY FUNCTION YOU WANT HERE
     }
 }

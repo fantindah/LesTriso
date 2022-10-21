@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -22,7 +23,10 @@ public class TypingGame : MonoBehaviour
 
     void Update()
     {
-        
+        if(AllCodeLines.Count == 0)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     public void CompareText(string textWritten)
