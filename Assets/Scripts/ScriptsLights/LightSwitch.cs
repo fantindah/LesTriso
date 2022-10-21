@@ -53,6 +53,7 @@ public class LightSwitch : MonoBehaviour
         }
     }
 
+
     public void LightsOff()
     {
         if (canSwitch)

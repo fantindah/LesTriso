@@ -12,8 +12,9 @@ public class EnemyMovement : MonoBehaviour
 
 
     private Coroutine movementCoroutine;
-    private bool isGoingBack = false;
-    public bool isBlocked = false;
+    [HideInInspector] public bool isGoingBack = false;
+    [HideInInspector] public bool isBlocked = false;
+    
 
     //GIZMOS
     private List<MovementVector> movementFrameConst = new();
@@ -27,8 +28,8 @@ public class EnemyMovement : MonoBehaviour
             movementFrameConst.Add(new MovementVector(movement.direction, movement.norm, movement.actionAfterPassed, movement.actionAfterPassedBackward));
         }
 
-        //movementCoroutine = StartCoroutine(Movement());
-        //j'ai enlevé le lancement pour tester avec le GP
+        movementCoroutine = StartCoroutine(Movement());
+
     }
 
     private void Update()
@@ -155,7 +156,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private void ReverseMovement()
+    public void ReverseMovement()
     {
         if(movementCoroutine is not null) StopCoroutine(movementCoroutine);
         movementFrame.Reverse();

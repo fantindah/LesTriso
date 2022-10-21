@@ -283,7 +283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 558443623}
   - component: {fileID: 558443622}
-  - component: {fileID: 558443621}
+  - component: {fileID: 558443625}
   - component: {fileID: 558443624}
   m_Layer: 0
   m_Name: Enemy
@@ -292,91 +292,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &558443621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558443620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e73ce209fb8f74192af04e080be894, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementFrame:
-  - direction: 0
-    norm: 7
-    actionAfterPassed: 3
-    actionAfterPassedBackward: 0
-    isPositive: 0
-  - direction: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 0
-    norm: 0
-    actionAfterPassed: 1
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 0
-    norm: 11
-    actionAfterPassed: 3
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 0
-    norm: 0
-    actionAfterPassed: 1
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 0
-    norm: 10
-    actionAfterPassed: 0
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 1
-    norm: 15
-    actionAfterPassed: 3
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 1
-    norm: 0
-    actionAfterPassed: 1
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 1
-    norm: 12
-    actionAfterPassed: 0
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 0
-    norm: -1
-    actionAfterPassed: 3
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 0
-    norm: 0
-    actionAfterPassed: 1
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  - direction: 0
-    norm: -20
-    actionAfterPassed: 3
-    actionAfterPassedBackward: 0
-    maxNorm: 0
-    isPositive: 0
-  distanceBetweenMovements: 0.3
-  goBack: 0
-  unblocked: 0
-  isBlocked: 0
 --- !u!212 &558443622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -461,9 +376,37 @@ MonoBehaviour:
   - {fileID: 1646118138}
   - {fileID: 1419007579}
   - {fileID: 962830649}
-  movement: {fileID: 558443621}
+  lightSwitch: []
+  movement: {fileID: 558443625}
   cooldownDoorHiting: 10
   damages: 15
+--- !u!114 &558443625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558443620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc73b9c22b6d9d41aa2a3c4abbd5dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementFrame:
+  - direction: 0
+    norm: 5
+    actionAfterPassed: 3
+    actionAfterPassedBackward: 4
+    maxNorm: 0
+    isPositive: 0
+  distanceBetweenMovements: 0.4
+  timeBetweenMoves: 1
+  checkPointTime: 0
+  goBack: 0
+  unblocked: 0
+  isGoingBack: 0
+  isBlocked: 0
+  lightTurnedOn: 0
 --- !u!1 &746337082 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 29226543644096934, guid: 17496de7b8e996042b922cb0ba90cedf, type: 3}
@@ -882,55 +825,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12e170dca036dc14d8dabcfcbd24bba5, type: 3}
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3345979391943348901, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5832170858515878341, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
-      propertyPath: m_Name
-      value: GP
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fbaac560e6587f948904f2e6f59a0fed, type: 3}
