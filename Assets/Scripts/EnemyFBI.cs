@@ -5,12 +5,13 @@ using UnityEngine;
 public class EnemyFBI : MonoBehaviour
 {
     public List<Door> doorsToBreak = new();
-    public List<bool> isLightOn = new();
+    public List<LightSwitch> isLightOn = new();
     public EnemyMovement movement;
     public float cooldownDoorHiting;
     public int damages;
 
     private float currentCooldownDoorHiting;
+    private bool isTransitory = true;
 
     private void Start()
     {
@@ -21,33 +22,36 @@ public class EnemyFBI : MonoBehaviour
     {
         if (movement.isBlocked)
         {
-            currentCooldownDoorHiting -= Time.deltaTime;
-            if(currentCooldownDoorHiting <= 0)
+            if (!movement.isGoingBack)
             {
-                currentCooldownDoorHiting = cooldownDoorHiting;
-                if (doorsToBreak[0].Damage(damages))
+                currentCooldownDoorHiting -= Time.deltaTime;
+                if (currentCooldownDoorHiting <= 0)
                 {
-                    Destroy(doorsToBreak[0].complex);
-                    doorsToBreak.RemoveAt(0);
-                    isLightOn.RemoveAt(0);
+                    currentCooldownDoorHiting = cooldownDoorHiting;
+                    if (doorsToBreak[0].Damage(damages))
+                    {
+                        Destroy(doorsToBreak[0].complex);
+                        doorsToBreak.RemoveAt(0);
+                        isLightOn.RemoveAt(0);
 
-                    movement.unblocked = true;
+                        isTransitory = true;
+                        movement.unblocked = true;
+                    }
                 }
+            } else
+            {
+                isLightOn[0].LightsOnWithoutCooldown();
+                movement.unblocked = true;
+                movement.goBack = true;
             }
+                
         }
 
-        if (!isLightOn[0] && !movement.isGoingBack)
+        if(!movement.isGoingBack && !isLightOn[0].lightsOnBool && !isTransitory)
         {
             movement.goBack = true;
-            StartCoroutine(WaitingForLight());
         }
 
         if (!doorsToBreak[0].jauge.activeInHierarchy) doorsToBreak[0].jauge.SetActive(true);
-    }
-    
-    IEnumerator WaitingForLight()
-    {
-        yield return new WaitUntil(() => isLightOn[0] = true);
-        movement.goBack = true;
     }
 }

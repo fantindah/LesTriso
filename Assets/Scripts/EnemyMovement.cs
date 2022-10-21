@@ -12,8 +12,8 @@ public class EnemyMovement : MonoBehaviour
 
 
     private Coroutine movementCoroutine;
-    [HideInInspector] public bool isGoingBack = false;
-    [HideInInspector] public bool isBlocked = false;
+    public bool isGoingBack = false;
+    public bool isBlocked = false;
     
 
     //GIZMOS
@@ -96,7 +96,11 @@ public class EnemyMovement : MonoBehaviour
                         break;
                     case ActionAfterPassed.WaitUntilCondition:
                         isBlocked = true;
-                        yield return new WaitUntil(() => isBlocked = false);
+                        while (isBlocked)
+                        {
+                            if (isGoingBack) break;
+                            yield return new WaitForEndOfFrame();
+                        }
                         break;
                 }
             } else
@@ -160,6 +164,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if(movementCoroutine is not null) StopCoroutine(movementCoroutine);
         movementFrame.Reverse();
+        isBlocked = false;
         isGoingBack = !isGoingBack;
         movementCoroutine = StartCoroutine(Movement());
     }
@@ -247,5 +252,6 @@ public enum ActionAfterPassed
     RemoveFromTheList,
     Wait,
     WaitUntilCondition,
+
     GameOver
 }
