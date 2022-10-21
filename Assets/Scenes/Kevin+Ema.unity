@@ -1636,13 +1636,13 @@ MonoBehaviour:
     maxNorm: 0
     isPositive: 0
   - direction: 0
-    norm: 0
-    actionAfterPassed: 1
+    norm: 3
+    actionAfterPassed: 3
     actionAfterPassedBackward: 0
     maxNorm: 0
     isPositive: 0
   - direction: 0
-    norm: 3
+    norm: 0
     actionAfterPassed: 1
     actionAfterPassedBackward: 0
     maxNorm: 0
@@ -1655,36 +1655,54 @@ MonoBehaviour:
     isPositive: 0
   - direction: 0
     norm: 4
+    actionAfterPassed: 0
+    actionAfterPassedBackward: 0
+    maxNorm: 0
+    isPositive: 0
+  - direction: 1
+    norm: 3
+    actionAfterPassed: 3
+    actionAfterPassedBackward: 0
+    maxNorm: 0
+    isPositive: 0
+  - direction: 1
+    norm: 0
     actionAfterPassed: 1
     actionAfterPassedBackward: 0
     maxNorm: 0
     isPositive: 0
   - direction: 1
-    norm: 12
+    norm: 8
     actionAfterPassed: 3
     actionAfterPassedBackward: 3
     maxNorm: 0
     isPositive: 0
   - direction: 1
-    norm: 3
+    norm: 4
+    actionAfterPassed: 3
+    actionAfterPassedBackward: 0
+    maxNorm: 0
+    isPositive: 0
+  - direction: 1
+    norm: 0
     actionAfterPassed: 1
-    actionAfterPassedBackward: 3
+    actionAfterPassedBackward: 0
     maxNorm: 0
     isPositive: 0
   - direction: 1
     norm: 5
     actionAfterPassed: 0
-    actionAfterPassedBackward: 0
+    actionAfterPassedBackward: 3
     maxNorm: 0
     isPositive: 0
   - direction: 0
     norm: -1
     actionAfterPassed: 3
-    actionAfterPassedBackward: 3
+    actionAfterPassedBackward: 0
     maxNorm: 0
     isPositive: 0
   - direction: 0
-    norm: -19
+    norm: -18
     actionAfterPassed: 0
     actionAfterPassedBackward: 0
     maxNorm: 0
@@ -1762,7 +1780,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756270625}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.59, y: -4.49, z: 0}
+  m_LocalPosition: {x: -7.55, y: -4.49, z: 0}
   m_LocalScale: {x: 0.48, y: 0.48, z: 0.48}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1792,8 +1810,8 @@ MonoBehaviour:
   - {fileID: 2073158069}
   - {fileID: 1198891374}
   movement: {fileID: 756270627}
-  cooldownDoorHiting: 1
-  damages: 100
+  cooldownDoorHiting: 15
+  damages: 10
 --- !u!1 &851082945
 GameObject:
   m_ObjectHideFlags: 0
@@ -3329,6 +3347,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1184218646}
     m_Modifications:
+    - target: {fileID: 8167856703470315878, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8167856703703083637, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1.44
@@ -3911,7 +3933,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8167856703470315878, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8167856703703083637, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3919,7 +3941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8167856704270954631, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8167856705052835156, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_RootOrder
@@ -3975,11 +3997,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8167856705233901337, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8167856705278758071, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}

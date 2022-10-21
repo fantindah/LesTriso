@@ -53,23 +53,6 @@ public class LightSwitch : MonoBehaviour
         }
     }
 
-    public void LightsOnWithoutCooldown()
-    {
-        if (canSwitch)
-        {
-            lightsOffIcon.SetActive(false);
-            lightsOnIcon.SetActive(true);
-            lightsOff.SetActive(false);
-            lightsOn.SetActive(true);
-
-            lightsOnBool = true;
-
-            transform.GetComponent<ElectricityGaugeUpdate>().IncreaseGauge();
-
-            StartCoroutine(SwitchCooldown());
-        }
-    }
-
     public void LightsOff()
     {
         if (canSwitch)
