@@ -27,6 +27,14 @@ public class TypingGame : MonoBehaviour
         {
             SceneManager.LoadScene(2);
         }
+        if (gameObject.activeSelf)
+        {
+            InputField.Select();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     public void CompareText(string textWritten)
@@ -46,7 +54,7 @@ public class TypingGame : MonoBehaviour
                 TextToWrite.text = "All Missions Completed!";
             }
                 
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
         else
         {
