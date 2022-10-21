@@ -15,7 +15,7 @@ public class ElectricityGaugeUpdate : MonoBehaviour
 
     [SerializeField] private float electricityPerRoomAmount = 20f;
 
-    void Start()
+    void Awake()
     {
         electricityGauge = GameObject.Find("ElectricityGauge").GetComponent<Slider>();
     }
