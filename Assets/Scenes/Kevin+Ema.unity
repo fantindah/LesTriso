@@ -1032,7 +1032,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 394df972a21118542bab344c1d8eb6f6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f06cd06457295444fbac448fed4f778f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1050,15 +1050,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233607582}
-  m_LocalRotation: {x: 0, y: 0, z: -0.008464695, w: 0.9999642}
-  m_LocalPosition: {x: -0.1353, y: -0.3425, z: 1}
-  m_LocalScale: {x: 1.380671, y: 1.1872047, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0163, y: 0.0865, z: 1}
+  m_LocalScale: {x: 0.92999995, y: 0.92999995, z: 9.299999}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1790704294}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.97}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424481019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,7 +1610,7 @@ GameObject:
   - component: {fileID: 756270627}
   - component: {fileID: 756270630}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyFBI
   m_TagString: EnemyFBI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1690,7 +1690,7 @@ MonoBehaviour:
     maxNorm: 0
     isPositive: 0
   - direction: 1
-    norm: 5
+    norm: 8
     actionAfterPassed: 0
     actionAfterPassedBackward: 3
     maxNorm: 0
@@ -1702,13 +1702,13 @@ MonoBehaviour:
     maxNorm: 0
     isPositive: 0
   - direction: 0
-    norm: -18
+    norm: -19
     actionAfterPassed: 0
     actionAfterPassedBackward: 0
     maxNorm: 0
     isPositive: 0
   - direction: 1
-    norm: 5
+    norm: 4
     actionAfterPassed: 4
     actionAfterPassedBackward: 0
     maxNorm: 0
@@ -1761,7 +1761,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f282e6ae945b73e47b2f5bd4f43bf872, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1781,7 +1781,7 @@ Transform:
   m_GameObject: {fileID: 756270625}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.55, y: -4.49, z: 0}
-  m_LocalScale: {x: 0.48, y: 0.48, z: 0.48}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -3416,6 +3416,7 @@ GameObject:
   - component: {fileID: 1779432367}
   - component: {fileID: 1779432366}
   - component: {fileID: 1779432365}
+  - component: {fileID: 1779432368}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3489,6 +3490,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1779432368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779432364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1790704292
 GameObject:
   m_ObjectHideFlags: 0
