@@ -14,6 +14,9 @@ public class EnemyMovement : MonoBehaviour
     private Coroutine movementCoroutine;
     public bool isGoingBack = false;
     public bool isBlocked = false;
+    public float backCooldown = 0f;
+
+    public int activeMovement;
     
 
     //GIZMOS
@@ -21,24 +24,31 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
-        foreach(MovementVector movement in movementFrame)
+        movementCoroutine = StartCoroutine(Movement());
+
+        foreach (MovementVector movement in movementFrame)
         {
             movement.maxNorm = movement.norm;
             movement.isPositive = (movement.norm >= 0);
             movementFrameConst.Add(new MovementVector(movement.direction, movement.norm, movement.actionAfterPassed, movement.actionAfterPassedBackward));
         }
-
-        movementCoroutine = StartCoroutine(Movement());
-
     }
 
     private void Update()
     {
-        if (goBack)
-        {
+
+        backCooldown -= Time.deltaTime;
+
+
+        if (goBack && backCooldown < 0) {
+            backCooldown = 1f;
             goBack = false;
             ReverseMovement();
+        } else
+        {
+            goBack = false;
         }
+
         if (unblocked)
         {
             unblocked = false;
@@ -50,6 +60,8 @@ public class EnemyMovement : MonoBehaviour
     {
         foreach (MovementVector movement in movementFrame)
         {
+            activeMovement = movementFrame.IndexOf(movement);
+
             if (isGoingBack)
             {
                 while (movement.norm != movement.maxNorm)
@@ -83,26 +95,7 @@ public class EnemyMovement : MonoBehaviour
                     }
                     yield return new WaitForSeconds(timeBetweenMoves);
                 }
-                switch (movement.actionAfterPassedBackward)
-                {
-                    case ActionAfterPassed.RemoveFromTheList:
-                        if(!isGoingBack) RemoveAllMovementFromBefore(movement);
-                        break;
-                    case ActionAfterPassed.Wait:
-                        yield return new WaitForSeconds(checkPointTime);
-                        break;
-                    case ActionAfterPassed.GameOver:
-                        Debug.Log("TU ES MORT AHAHAHAHAHAH");
-                        break;
-                    case ActionAfterPassed.WaitUntilCondition:
-                        isBlocked = true;
-                        while (isBlocked)
-                        {
-                            if (isGoingBack) break;
-                            yield return new WaitForEndOfFrame();
-                        }
-                        break;
-                }
+                
             } else
             {
                 while (movement.norm != 0)
@@ -136,26 +129,27 @@ public class EnemyMovement : MonoBehaviour
                     }
                     yield return new WaitForSeconds(timeBetweenMoves);
                 }
-                switch (movement.actionAfterPassed)
-                {
-                    case ActionAfterPassed.RemoveFromTheList:
-                        if (!isGoingBack) RemoveAllMovementFromBefore(movement);
-                        break;
-                    case ActionAfterPassed.Wait:
-                        yield return new WaitForSeconds(checkPointTime);
-                        break;
-                    case ActionAfterPassed.GameOver:
-                        Debug.Log("TU ES MORT AHAHAHAHAHAH");
-                        break;
-                    case ActionAfterPassed.WaitUntilCondition:
-                        isBlocked = true;
-                        while (isBlocked)
-                        {
-                            if (isGoingBack) break;
-                            yield return new WaitForEndOfFrame();
-                        }
-                        break;
-                }
+            }
+
+            switch (isGoingBack ? movement.actionAfterPassedBackward : movement.actionAfterPassed)
+            {
+                case ActionAfterPassed.RemoveFromTheList:
+                    if (!isGoingBack) RemoveAllMovementFromBefore(movement);
+                    break;
+                case ActionAfterPassed.Wait:
+                    yield return new WaitForSeconds(checkPointTime);
+                    break;
+                case ActionAfterPassed.GameOver:
+                    Debug.Log("TU ES MORT AHAHAHAHAHAH");
+                    break;
+                case ActionAfterPassed.WaitUntilCondition:
+                    isBlocked = true;
+                    while (isBlocked)
+                    {
+                        if (isGoingBack) break;
+                        yield return new WaitForEndOfFrame();
+                    }
+                    break;
             }
         }
     }
@@ -252,6 +246,5 @@ public enum ActionAfterPassed
     RemoveFromTheList,
     Wait,
     WaitUntilCondition,
-
     GameOver
 }

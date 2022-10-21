@@ -45,3 +45,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 2961846275
+    locked: 0
+  - name: Quests
+    uniqueID: 232492439
+    locked: 0
+  - name: Light
+    uniqueID: 1241841201
+    locked: 0
+  - name: Enemies
+    uniqueID: 2052310585
+    locked: 0

@@ -10,6 +10,7 @@ public class DoorQuest : MonoBehaviour
     public GameObject cible;
 
     public Vector2 spawnArea;
+    public GameObject textQuest;
     private GameObject currentTarget;
 
     private void Start()
@@ -37,7 +38,9 @@ public class DoorQuest : MonoBehaviour
 
     public void Unactive()
     {
+        door.isQuestActive = false;
         door = null;
+        textQuest.SetActive(true);
         Destroy(currentTarget);
         gameObject.SetActive(false);
     }

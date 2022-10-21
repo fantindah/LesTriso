@@ -478,6 +478,7 @@ MonoBehaviour:
   cooldownSprite: {fileID: 8167856704209880021}
   switchCooldown: 3
   lightsOnBool: 0
+  canSwitch: 1
 --- !u!114 &3189766465809473490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,7 +493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   electricityIncreaseTime: 3
   electricityDecreaseTime: 3
-  electricityPerRoomAmount: 20
+  electricityPerRoomAmount: 25
 --- !u!1 &8167856705233901337
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,11 +12,17 @@ public class LightsManager : MonoBehaviour
     void Start()
     {
         electricityGauge = GameObject.Find("ElectricityGauge").GetComponent<Slider>();
+        
+        foreach (bool isRoomLit in GetAllLightsOn(lightsOnList))
+        {
+            if(isRoomLit)
+                gameObject.GetComponent<ElectricityGaugeUpdate>().IncreaseGauge();
+        }
     }
 
     void Update()
     {
-        //lightsOnList = GetAllLightsOn(lightsOnList);
+        lightsOnList = GetAllLightsOn(lightsOnList);
         if (electricityGauge.value>=100)
         {
             BlowFuze(GetAllRooms(AllRoomsScripts));
