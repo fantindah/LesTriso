@@ -13,12 +13,9 @@ public class DoorQuest : MonoBehaviour
     public GameObject textQuest;
     private GameObject currentTarget;
 
-    private void Start()
-    {
-        StartCoroutine(DoorQuestCoroutine());
-    }
+    public Coroutine coroutine;
 
-    IEnumerator DoorQuestCoroutine()
+    public IEnumerator DoorQuestCoroutine()
     {
         while (true)
         {
@@ -43,6 +40,7 @@ public class DoorQuest : MonoBehaviour
         textQuest.SetActive(true);
         Destroy(currentTarget);
         gameObject.SetActive(false);
+        StopCoroutine(coroutine);
     }
 
     private void OnDrawGizmos()

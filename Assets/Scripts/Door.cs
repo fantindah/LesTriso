@@ -46,6 +46,7 @@ public class Door : MonoBehaviour
             DoorQuest _quest = quest.GetComponent<DoorQuest>();
             _quest.door = this;
             _quest.textQuest.SetActive(false);
+            _quest.coroutine = StartCoroutine(_quest.DoorQuestCoroutine());
         }
     }
 
