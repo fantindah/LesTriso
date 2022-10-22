@@ -23,10 +23,10 @@ public class TypingGame : MonoBehaviour
 
     void Update()
     {
-        if(AllCodeLines.Count == 0)
-        {
-            SceneManager.LoadScene(2);
-        }
+        //if(AllCodeLines.Count == 0)
+        //{
+        //    SceneManager.LoadScene(2);
+        //}
         if (gameObject.activeSelf)
         {
             InputField.Select();
@@ -50,6 +50,7 @@ public class TypingGame : MonoBehaviour
             }
             else
             {
+                SceneManager.LoadScene(2);
                 InputField.gameObject.SetActive(false);
                 TextToWrite.text = "All Missions Completed!";
             }

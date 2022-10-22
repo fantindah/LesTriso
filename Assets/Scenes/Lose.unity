@@ -895,7 +895,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentScene:
     m_Handle: 0
-  credits: {fileID: 0}
+  credits: {fileID: 1771547790}
 --- !u!114 &2020249574
 MonoBehaviour:
   m_ObjectHideFlags: 0

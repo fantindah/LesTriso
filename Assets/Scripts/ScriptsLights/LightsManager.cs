@@ -7,17 +7,12 @@ public class LightsManager : MonoBehaviour
 {
     [SerializeField] private List<bool> lightsOnList = new List<bool>();
     [SerializeField] private List<LightSwitch> AllRoomsScripts = new List<LightSwitch>();
-    private Slider electricityGauge;
+    public Slider electricityGauge;
 
     void Start()
     {
-        electricityGauge = GameObject.Find("ElectricityGauge").GetComponent<Slider>();
-        
-        foreach (bool isRoomLit in GetAllLightsOn(lightsOnList))
-        {
-            if(isRoomLit)
-                gameObject.GetComponent<ElectricityGaugeUpdate>().IncreaseGauge();
-        }
+
+
     }
 
     void Update()
