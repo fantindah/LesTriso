@@ -20,12 +20,12 @@ public class MomMouvement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameObject.GetComponent<EnemyMovement>().activeMovement == 5 && !dialoguePlaying && gameObject.GetComponent<EnemyMovement>().isBlocked && security ==0 && transform.position.x >-4)
+        if(gameObject.GetComponent<EnemyMovement>().activeMovement == 5 && !dialoguePlaying && gameObject.GetComponent<EnemyMovement>().isBlocked && security ==0 && transform.position.x > -3)
         {
             Debug.Log(gameObject.GetComponent<EnemyMovement>().activeMovement);
             StartCoroutine(ActivateDialogue(momDialogue, 6, sonDialogue, 2));
         }
-        else if (gameObject.GetComponent<EnemyMovement>().activeMovement == 5 && gameObject.GetComponent<EnemyMovement>().isBlocked && security == 0 && transform.position.x < -4)
+        else if (gameObject.GetComponent<EnemyMovement>().activeMovement == 5 && gameObject.GetComponent<EnemyMovement>().isBlocked && security == 0 && transform.position.x < -3)
         {
             gameObject.GetComponent<EnemyMovement>().goBack = true;
         }

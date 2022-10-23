@@ -2414,6 +2414,10 @@ PrefabInstance:
       propertyPath: lightsOnBool
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8167856705052835157, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
+      propertyPath: switchCooldown
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8167856705052835159, guid: c648f24b1a163854fa7c4d2e1ca5764a, type: 3}
       propertyPath: m_Name
       value: LivingRoom
@@ -3468,12 +3472,24 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Just let me watch my darn TV in peace !!!\n It's always like that with
-    you, you ungrateful brat ! You're here telling me you're gonna make millions
+  m_text: 'Just let me watch my darn TV in peace !!!
+
+    It''s always like that
+    with you, you ungrateful brat ! You''re here telling me you''re gonna make millions
     doing what you do, but all I see is you pissing me off. You have exceeded the
-    limits this time. I'm sure now, it's because of you that your father never found
-    the milk, ungrateful child. And damn it, air out this fucking room, looks like
-    you killed 2 men. Go wash up, you filthy bastard."
+    limits this time. I''m sure now, it''s because of you that your father never
+    found the milk, ungrateful child. And damn it, air out this fucking room, when
+    was the last time you took a shower ? Smells like dead bodies in here. Go wash
+    up, you filthy bastard. You stink and your hair is so greasy its moisturizing
+    you dry ass skin. Actually I can see why you keep it that way cause its distracting
+    me from that awful haircut you have since you decided to shave your head to look
+    as cool and buff as a military guy. Man you just looked like a freaking ping
+    pong ball. That''s actually the only time I felt happy looking at you. But for
+    real what''s wrong with you ? Why are you like this ? I can''t believe you''re
+    your father''s son. He was always so good to me. Maybe you aren''t his son. I
+    can''t really remember, crazy times that was. Sometimes I don''t even think you''re
+    mine. Maybe they switched babies at the hospital but still I don''t know what
+    I did to deserve having you as a son.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5497,7 +5513,7 @@ MonoBehaviour:
     maxNorm: 0
     isPositive: 0
   distanceBetweenMovements: 0.4
-  timeBetweenMoves: 0.3
+  timeBetweenMoves: 0.1
   checkPointTime: 0
   goBack: 0
   unblocked: 0
@@ -5637,7 +5653,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972213674}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
